@@ -1,0 +1,27 @@
+﻿@page
+@using System.Data.SqlClient;
+
+@{
+    try
+    {
+        String id = Request.Query["id"];
+
+        string connectionString = "Data Source=PUNITHKUMAR\\SQLEXPRESS;Initial Catalog=DataStoreEx;Persist Security Info=True;User ID=sa;Password=pass@word!";
+        using (SqlConnection conn = new SqlConnection(connectionString))
+        {
+            conn.Open();
+            String Sql = "Delete from Client where id=@id";
+            using (SqlCommand scmd = new SqlCommand(Sql, conn))
+            {
+                scmd.Parameters.AddWithValue("@id", id);
+                scmd.ExecuteNonQuery();
+            }
+        }
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine("error : " + e.ToString());
+    }
+    Response.Redirect("/Datamanager/Index1");
+
+}
